@@ -41,7 +41,7 @@ const Sumary = () => {
         window.location = response.data.url
     }
 
-    const versand = 18 * itemsCount
+    const versand = 5 * itemsCount
     const bestellsumme = versand+total
     const MwSt = bestellsumme*19/100
 

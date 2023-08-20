@@ -85,7 +85,11 @@ export const useCartStore = create(
                     toast.success("Item removed from the cart.");
                 }
             },
-            removeAll: () => set({ totalItems: INITIAL_STATE.totalItems }),
+            removeAll: () => set({
+                cart:INITIAL_STATE.cart,
+                totalItems:INITIAL_STATE.totalItems,
+                totalPrice:INITIAL_STATE.totalPrice
+            }),
 
         }),
         {
