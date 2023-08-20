@@ -52,4 +52,4 @@ const SubcategoryCard:React.FC<SubcategoryCardProps>= ({
   )
 }
 
-export default ProductCard
+export default SubcategoryCard
