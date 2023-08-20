@@ -2,18 +2,19 @@
 import Button from '@/components/ui/Button'
 import Currency from '@/components/ui/currency'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import useCart from '@/hooks/use-cart'
 import { useCartStore } from '@/hooks/use-cart-store'
+import { Product } from '@/types'
 import axios from 'axios'
-import { CheckCircle2, ChevronRight } from 'lucide-react'
+import {  ChevronRight } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { toast } from 'react-hot-toast/headless'
 
+
 const Sumary = () => {
     const searchParams = useSearchParams()
-    const items = useCart((state) => state.items)
-    const removeAll = useCart((state) => state.removeAll)
+    const items = useCartStore((state) => state.cart)
+    const removeAll = useCartStore((state) => state.removeAll)
 
     const cart = useCartStore((state) => state.cart)
     const itemsCount = useCartStore((state) => state.totalItems)

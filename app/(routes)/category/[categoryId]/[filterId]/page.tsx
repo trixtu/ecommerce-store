@@ -6,14 +6,12 @@ import Container from "@/components/ui/container";
 
 import getSubcategories from "@/actions/get-subcategories";
 import Sidebar from "@/components/sidebar/sidebar";
-import ProductList from "@/components/products-by-category";
 import MobileFilter from "../components/mobile-filter";
 import Filter from "../components/filter";
 import getSubcategory from "@/actions/get-subcategory";
 import Noresults from "@/components/ui/no-result";
 import ProductCard from "@/components/ui/product-card";
 import Breadcrumbs from "@/components/ui/breadcrumbs/breadcrumbs";
-import Image from "next/image";
 
 
 export const revalidate = 0

@@ -15,6 +15,7 @@ interface Actions {
     addToCart: (Item: Product) => void
     removeFromCart: (Item: Product) => void
     removeItemFromCart: (Item: Product) => void
+    removeAll: () => void
 }
 
 // Initialize a default state
@@ -83,7 +84,8 @@ export const useCartStore = create(
                     }))
                     toast.success("Item removed from the cart.");
                 }
-            }
+            },
+            removeAll: () => set({ totalItems: INITIAL_STATE.totalItems }),
 
         }),
         {

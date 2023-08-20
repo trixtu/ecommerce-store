@@ -1,11 +1,9 @@
 "use client"
 import Container from "@/components/ui/container"
-import useCart from "@/hooks/use-cart"
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CartItem from "./components/cart-item"
 import Sumary from "./components/sumary"
 
-import { Product } from "@/types"
 import { useCartStore } from "@/hooks/use-cart-store"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import CartItemMobile from "./components/cart-item-mobile"
@@ -67,7 +65,7 @@ const CartPage = () => {
                                 }
                             </div>
                         </div>
-                        <Sumary />
+                        <Sumary/>
                     </div>
                 </div>
             </Container>
