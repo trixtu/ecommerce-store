@@ -1,20 +1,13 @@
-
-
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { User, getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import React, { Context } from "react";
-import { LoginButton, LogoutButton } from "../auth";
+import React from "react";
+import { LogoutButton } from "../auth";
 import Breadcrumbs from "@/components/ui/breadcrumbs/breadcrumbs";
 import Container from "@/components/ui/container";
 import Contact from "@/components/sidebar/contact";
 import MainSidebar from "@/components/sidebar/main-sidebar";
 import prismadb from "@/lib/prismadb";
-import { json } from "stream/consumers";
-import Button from "@/components/ui/Button";
-import { signOut } from "next-auth/react";
-
-
 
 const ProfilePage = async () => {
 
@@ -32,8 +25,8 @@ const ProfilePage = async () => {
 
   if (user) {
     user.map((u) => (
-      nachname = u.nachname,
-      vorname = u.vorname
+      nachname = u.nachname || '',
+      vorname = u.vorname || ''
     ))
   }
 
@@ -50,24 +43,17 @@ const ProfilePage = async () => {
     }
   ]
 
-  const items = [
-    {
-      name: "test1"
-    }
-  ]
-
-
   return (
     <Container>
       <div className="px-4 py-4 sm:px-6 lg:px-8 font-roboto">
         <Breadcrumbs items={crumb} />
-        <div className="grid grid-cols-12">
+        <div className="lg:grid lg:grid-cols-12">
           <div className=" col-span-3">
             <MainSidebar title={"Mein Konto"} valueKey="subCat" />
             <Contact />
           </div>
           <div className=" col-span-9">
-            <div className="ml-4 border border-t-4 border-t-red-600 shadow-sm p-4">
+            <div className="lg:ml-4 border border-t-4 border-t-red-600 shadow-sm p-4">
               <h1 className="font-bold text-2xl my-6">Meine Übersicht</h1>
               <div className="flex items-baseline justify-between">
                 <h3 className="font-bold my-2">Hallo,{nachname + ' ' + vorname}</h3>

@@ -9,6 +9,9 @@ import Breadcrumbs from "@/components/ui/breadcrumbs/breadcrumbs";
 import Container from "@/components/ui/container";
 import Contact from "@/components/sidebar/contact";
 import MainSidebar from "@/components/sidebar/main-sidebar";
+import EditAccount from "./components/edit-account";
+import EditEmail from "./components/edit-email";
+import EditPassword from "./components/edit-password";
 
 
 const EditPage = async () => {
@@ -48,7 +51,9 @@ const EditPage = async () => {
             <Contact />
           </div>
           <div className=" col-span-9">
-            Edit page
+            <EditAccount/>
+            <EditEmail/>
+            <EditPassword/>
           </div>
         </div>
         <div><pre>{JSON.stringify(session)}</pre></div>
