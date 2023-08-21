@@ -2,13 +2,13 @@ import { compare } from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from "@prisma/client";
 
 
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import prismadb from "@/lib/prismadb";
 
-const prisma = new PrismaClient();
+
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -45,7 +45,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await prisma.user.findUnique({
+        const user = await prismadb.user.findUnique({
           where: {
             email: credentials.email,
           },
@@ -71,8 +71,9 @@ export const authOptions: NextAuthOptions = {
         return{
             id:user.id + '',
             email:user.email,
-            name:user.name,
-            randomKey:"hey cool"
+            vorname:user.vorname,
+            nachname:user.nachname,
+            randomKey:"hey coollllll"
         }
       },
     }),

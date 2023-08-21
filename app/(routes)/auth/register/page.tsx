@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { z } from "zod";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 
 import { Alert } from "@/components/uii/alert";
@@ -37,6 +37,7 @@ enum GenderEnum {
 }
 
 interface FormValues {
+  anrede: string;
   vorname: string;
   nachname: string;
   email: string;
@@ -52,6 +53,7 @@ export default function RegisterPage() {
 
   const form = useForm<FormValues>({
     defaultValues: {
+      anrede: "",
       vorname: "",
       nachname: "",
       email: "",
@@ -69,8 +71,11 @@ export default function RegisterPage() {
       const res = await fetch("/api/register", {
         method: "POST",
         body: JSON.stringify({
-          data: { 
-            email: data.email, 
+          data: {
+            anrede: data.anrede,
+            vorname: data.vorname,
+            nachname: data.nachname,
+            email: data.email,
             password: data.password,
           },
         }),
@@ -106,6 +111,19 @@ export default function RegisterPage() {
               </h1>
               {error && <Alert>{error}</Alert>}
               <div className="space-y-4 w-full">
+                <div className="grid w-full items-center gap-1.5">
+                  <Label htmlFor="anrede">
+                    Anrede <span className="ml-1">*</span>
+                  </Label>
+                  <select id="anrede" className="w-20 border border-neutral-400">
+                    <option value={anrede}>Herr</option>
+                    <option value="">Frau</option>
+                    <option value="">Firma</option>
+                  </select>
+                  <span className="text-sm text-red-500">
+                    {errors.vorname?.message}
+                  </span>
+                </div>
                 <div className="grid w-full items-center gap-1.5">
                   <Label htmlFor="vorname">
                     Vorname <span className="ml-1">*</span>

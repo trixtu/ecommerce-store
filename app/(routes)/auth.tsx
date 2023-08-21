@@ -8,5 +8,5 @@ export const LoginButton = ()=>{
 }
 
 export const LogoutButton = ()=>{
-    return <Button onClick={()=>signOut()}>Sign out</Button>
+    return <Button className="bg-red-600 rounded-none py-1 shadow-sm" onClick={()=>signOut()}>Abmelden</Button>
 }
