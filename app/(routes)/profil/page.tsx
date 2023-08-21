@@ -49,7 +49,9 @@ const ProfilePage = async () => {
             <Contact />
           </div>
           <div className=" col-span-9">
-            main
+            <div className=" border-t-2">
+                zzzzzz
+            </div>
           </div>
         </div>
         <div><pre>{JSON.stringify(session)}</pre></div>
