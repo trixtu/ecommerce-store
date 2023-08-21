@@ -41,7 +41,7 @@ const ProfilePage = async () => {
 
   return (
     <Container>
-      <div className="px-4 py-4 sm:px-6 lg:px-8 font-roboto">
+      <div className="px-4 py-4 sm:px-6 lg:px-8 font-roboto gap-x-4">
         <Breadcrumbs items={crumb} />
         <div className="grid grid-cols-12">
           <div className=" col-span-3">
