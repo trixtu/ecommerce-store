@@ -1,5 +1,3 @@
-
-
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -12,7 +10,7 @@ import MainSidebar from "@/components/sidebar/main-sidebar";
 import EditAccount from "./components/edit-account";
 import EditEmail from "./components/edit-email";
 import EditPassword from "./components/edit-password";
-
+import prismadb from "@/lib/prismadb";
 
 const EditPage = async () => {
 
@@ -21,6 +19,22 @@ const EditPage = async () => {
   if (!session) {
     redirect("/auth/login");
   }
+
+  const users = await prismadb.user.findMany()
+
+  const user = users.filter((user) => user.email === session.user?.email)
+
+  let nachname, vorname, email, id
+
+  if (user) {
+    user.map((u) => (
+      id = u.id,
+      email = u.email,
+      nachname = u.nachname || '',
+      vorname = u.vorname || ''
+    ))
+  }
+
 
   const crumb = [
     {
@@ -51,12 +65,12 @@ const EditPage = async () => {
             <Contact />
           </div>
           <div className=" col-span-9">
-            <EditAccount/>
-            <EditEmail/>
-            <EditPassword/>
+            <div className="lg:ml-4 border border-t-4 border-t-red-600 shadow-sm p-4">
+              <h1 className="font-bold text-2xl">Benutzerkonto bearbeiten</h1>
+              <EditAccount data={{ id, vorname, nachname, email }} />
+            </div>
           </div>
         </div>
-        <div><pre>{JSON.stringify(session)}</pre></div>
         <LogoutButton />
         <LogoutButton />
       </div>

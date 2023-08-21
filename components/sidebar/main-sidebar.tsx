@@ -20,8 +20,6 @@ const MainSidebar: React.FC<MainSidebarProps> = ({
     const searchParams = useSearchParams()
     const pathname = usePathname()
 
-    console.log(pathname)
-
     const routes = [
         {
             href: "/profil/account",
