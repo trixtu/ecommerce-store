@@ -7,10 +7,13 @@ import Breadcrumbs from "@/components/ui/breadcrumbs/breadcrumbs";
 import Container from "@/components/ui/container";
 import Contact from "@/components/sidebar/contact";
 import MainSidebar from "@/components/sidebar/main-sidebar";
-import EditAccount from "./components/edit-account";
+
 import EditEmail from "./components/edit-email";
 import EditPassword from "./components/edit-password";
 import prismadb from "@/lib/prismadb";
+import getUsers from "@/actions/get-users";
+import EditAccount from "./components/edit-account";
+import { compare } from "bcrypt";
 
 const EditPage = async () => {
 
@@ -19,22 +22,11 @@ const EditPage = async () => {
   if (!session) {
     redirect("/auth/login");
   }
+  
+  const users = await getUsers()
+  const user = users.find((user) => user.email === session.user?.email)
 
-  const users = await prismadb.user.findMany()
-
-  const user = users.filter((user) => user.email === session.user?.email)
-
-  let nachname, vorname, email, id
-
-  if (user) {
-    user.map((u) => (
-      id = u.id,
-      email = u.email,
-      nachname = u.nachname || '',
-      vorname = u.vorname || ''
-    ))
-  }
-
+  
 
   const crumb = [
     {
@@ -67,7 +59,7 @@ const EditPage = async () => {
           <div className=" col-span-9">
             <div className="lg:ml-4 border border-t-4 border-t-red-600 shadow-sm p-4">
               <h1 className="font-bold text-2xl">Benutzerkonto bearbeiten</h1>
-              <EditAccount data={{ id, vorname, nachname, email }} />
+              <EditAccount id={user?.id} initialData={users}/>
             </div>
           </div>
         </div>

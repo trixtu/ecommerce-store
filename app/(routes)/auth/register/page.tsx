@@ -14,6 +14,8 @@ import { signIn } from "next-auth/react";
 
 import { Alert } from "@/components/uii/alert";
 
+const URL=`${process.env.NEXT_PUBLIC_API_URL}/users`
+
 const formSchema = z
   .object({
     vorname: z.string().nonempty("Vorname is required"),
@@ -68,7 +70,7 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch(URL, {
         method: "POST",
         body: JSON.stringify({
           data: {

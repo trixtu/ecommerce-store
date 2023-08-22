@@ -8,6 +8,8 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import prismadb from "@/lib/prismadb";
 
+const URL=`${process.env.NEXT_PUBLIC_API_URL}/users`
+
 export const RegisterForm = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -17,7 +19,7 @@ export const RegisterForm = () => {
     e.preventDefault()
 
     try {
-      const res = await fetch('/api/register', {
+      const res = await fetch(URL, {
         method: 'POST',
         body: JSON.stringify({
           email,

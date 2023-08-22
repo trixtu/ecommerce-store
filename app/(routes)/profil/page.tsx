@@ -7,7 +7,7 @@ import Breadcrumbs from "@/components/ui/breadcrumbs/breadcrumbs";
 import Container from "@/components/ui/container";
 import Contact from "@/components/sidebar/contact";
 import MainSidebar from "@/components/sidebar/main-sidebar";
-import prismadb from "@/lib/prismadb";
+import getUsers from "@/actions/get-users";
 
 const ProfilePage = async () => {
 
@@ -17,19 +17,11 @@ const ProfilePage = async () => {
     redirect("/auth/login");
   }
 
-  const users = await prismadb.user.findMany()
+  const users = await getUsers()
 
-  const user = users.filter((user) => user.email === session.user?.email)
+  const user = users.find((user) => user.email === session.user?.email)
 
-  let nachname, vorname
-
-  if (user) {
-    user.map((u) => (
-      nachname = u.nachname || '',
-      vorname = u.vorname || ''
-    ))
-  }
-
+  console.log(user)
   const crumb = [
     {
       label: (
@@ -56,7 +48,7 @@ const ProfilePage = async () => {
             <div className="lg:ml-4 border border-t-4 border-t-red-600 shadow-sm p-4">
               <h1 className="font-bold text-2xl my-6">Meine Übersicht</h1>
               <div className="flex items-baseline justify-between">
-                <h3 className="font-bold my-2">Hallo,{nachname + ' ' + vorname}</h3>
+                <h3 className="font-bold my-2">Hallo,{user?.vorname + ' ' + user?.nachname}</h3>
                 <LogoutButton/>
               </div>
               <p className="text-sm">Von Ihrer Benutzerkonto-Übersicht aus haben Sie die Möglichkeit, Ihre letzten Vorgänge einzusehen und Ihre Benutzerkonto-Daten zu bearbeiten. Wählen Sie dazu einen der untenstehenden Links, um Informationen anzusehen oder zu bearbeiten.</p>

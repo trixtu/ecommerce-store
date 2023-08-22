@@ -39,7 +39,6 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   const colors = await getColors()
   const category = await getCategory(params.categoryId)
   const subcategories = await getSubcategories({ categoryId: params.categoryId })
-  console.log(category)
 
 
   const crumb = [

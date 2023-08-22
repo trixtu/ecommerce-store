@@ -7,7 +7,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import prismadb from "@/lib/prismadb";
-
+import getUsers from "@/actions/get-users";
+ 
 
 
 export const authOptions: NextAuthOptions = {
@@ -44,12 +45,14 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials.password) {
           return null;
         }
-
-        const user = await prismadb.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
+        const users = await getUsers()
+        const user = users.find((user) => user?.email === credentials.email)
+        console.log(user)
+        // const user = await prismadb.user.findUnique({
+        //   where: {
+        //     email: credentials.email,
+        //   },
+        // });
 
         if (!user) {
           return null;

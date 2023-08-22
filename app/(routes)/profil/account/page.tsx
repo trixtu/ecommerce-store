@@ -9,7 +9,6 @@ import Breadcrumbs from "@/components/ui/breadcrumbs/breadcrumbs";
 import Container from "@/components/ui/container";
 import Contact from "@/components/sidebar/contact";
 import MainSidebar from "@/components/sidebar/main-sidebar";
-import prismadb from "@/lib/prismadb";
 
 
 const Account = async () => {
@@ -19,19 +18,7 @@ const Account = async () => {
   if (!session) {
     redirect("/auth/login");
   }
-  const users = await prismadb.user.findMany()
-
-  const user = users.filter((user) => user.email === session.user?.email)
-
-  let nachname, vorname
-
-  if (user) {
-    user.map((u) => (
-      nachname = u.nachname || '',
-      vorname = u.vorname || ''
-    ))
-  }
-
+  
   const crumb = [
     {
       label: (
@@ -44,6 +31,11 @@ const Account = async () => {
       path: `/profil`,
     }
   ]
+
+  //const userstest = await getUsers()
+
+
+
 
   const items = [
     {
@@ -61,6 +53,10 @@ const Account = async () => {
             <Contact />
           </div>
           <div className=" col-span-9">
+            {/* {userstest.map((user) => (
+              <p key={user.id}>{user.email}</p>
+              
+            ))} */}
             account
           </div>
         </div>
