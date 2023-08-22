@@ -26,7 +26,7 @@ const EditPage = async () => {
   const users = await getUsers()
   const user = users.find((user) => user.email === session.user?.email)
 
-  
+  console.log(users)
 
   const crumb = [
     {
@@ -59,7 +59,7 @@ const EditPage = async () => {
           <div className=" col-span-9">
             <div className="lg:ml-4 border border-t-4 border-t-red-600 shadow-sm p-4">
               <h1 className="font-bold text-2xl">Benutzerkonto bearbeiten</h1>
-              <EditAccount id={user?.id} initialData={users}/>
+              <EditAccount idUser={user?.id} initialData={users}/>
             </div>
           </div>
         </div>

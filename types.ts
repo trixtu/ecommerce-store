@@ -58,7 +58,19 @@ export interface User{
   nachname?:string
 }
 
+export interface Address{
+  id:string
+  userId:string
+  firma?:string
+  telefon?:string
+  street?:string
+  stadt?:string
+  postzahl?:string
+  land?:string
+}
+
 export type SwiperItemType = {
   imageSrc: string;
   imageAlt: string;
 };
+

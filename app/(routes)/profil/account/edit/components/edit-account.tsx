@@ -16,7 +16,7 @@ import { toast } from "react-hot-toast";
 import { User } from '@/types'
 import { compare } from 'bcrypt'
 
-const URL = `${process.env.NEXT_PUBLIC_API_URL}/users`
+const URL=`${process.env.NEXT_PUBLIC_API_URL}/users`
 
 const formSchema = z
     .object({
@@ -35,18 +35,18 @@ const formSchema = z
 type AccountFormValues = z.infer<typeof formSchema>;
 
 interface EditAccountProps {
-    id: any;
+    idUser: any;
     initialData: User[]
 }
 
 
 
 const EditAccount: React.FC<EditAccountProps> = ({
-    id,
+    idUser,
     initialData
 }) => {
     const router = useRouter()
-    const user = initialData.find(user => user.id === id)
+    const user = initialData.find(user => user.id === idUser)
     const [loading, setLoading] = useState(false);
     const action = user ? "Speichern" : "Create";
 
@@ -68,10 +68,11 @@ const EditAccount: React.FC<EditAccountProps> = ({
 
         try {
             setLoading(true);
-            const res = await fetch(`${URL}/${id}`, {
+            const res = await fetch(`${URL}`, {
                 method: "PATCH",
                 body: JSON.stringify({
                     data: {
+                        userId:idUser,
                         vorname: data.vorname,
                         nachname: data.nachname,
                         email: data.email,
@@ -83,7 +84,8 @@ const EditAccount: React.FC<EditAccountProps> = ({
             })
             if (res.ok) {
                 router.refresh();
-                toast.success("ok");
+                toast.success("Erfolgreich aktualisiert");
+                router.push('/profil')
               } else {
                 setError((await res.json()).error);
               }
@@ -97,7 +99,6 @@ const EditAccount: React.FC<EditAccountProps> = ({
         }
     };
 
-    console.log(loading)
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -167,7 +168,7 @@ const EditAccount: React.FC<EditAccountProps> = ({
                 <div className='flex items-center justify-between'>
                     <Button
                         className=" rounded-sm flex items-center justify-center bg-neutral-800 mt-4 py-2"
-                        onClick={() => router.push("/")}
+                        onClick={() => router.push("/profil")}
                     >
                         <ChevronLeft size={20} />
                         Zurück
