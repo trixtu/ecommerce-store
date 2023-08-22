@@ -16,7 +16,7 @@ import { toast } from "react-hot-toast";
 import { User } from '@/types'
 import { compare } from 'bcrypt'
 
-const URL=`${process.env.NEXT_PUBLIC_API_URL}/users`
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/users`
 
 const formSchema = z
     .object({
@@ -50,6 +50,8 @@ const EditAccount: React.FC<EditAccountProps> = ({
     const [loading, setLoading] = useState(false);
     const action = user ? "Speichern" : "Create";
 
+    const [error, setError] = useState<string | null>(null);
+
 
     const form = useForm<AccountFormValues>({
         resolver: zodResolver(formSchema),
@@ -63,17 +65,31 @@ const EditAccount: React.FC<EditAccountProps> = ({
 
 
     const onSubmit = async (data: AccountFormValues) => {
+
         try {
             setLoading(true);
-            await axios.patch(
-                `${URL}/${id}`,
-                data
-            );
-            console.log("ok")
+            const res = await fetch(`${URL}/${id}`, {
+                method: "PATCH",
+                body: JSON.stringify({
+                    data: {
+                        vorname: data.vorname,
+                        nachname: data.nachname,
+                        email: data.email,
+                    },
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            if (res.ok) {
+                router.refresh();
+                toast.success("ok");
+              } else {
+                setError((await res.json()).error);
+              }
             
-            router.refresh();
             //router.push(`/${params.storeId}/subcategories`);
-            //toast.success(toastMessage);
+            
         } catch (error) {
             toast.error("Something went wrong.");
         } finally {
@@ -142,9 +158,9 @@ const EditAccount: React.FC<EditAccountProps> = ({
                     </div>
                     <div className='my-2'>
 
-                        
 
-            
+
+
 
                     </div>
                 </div>
