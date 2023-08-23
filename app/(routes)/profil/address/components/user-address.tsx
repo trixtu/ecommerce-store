@@ -17,11 +17,11 @@ const URL = `${process.env.NEXT_PUBLIC_API_URL}/address`
 const formSchema = z
     .object({
         firma: z.string(),
-        telefon: z.string().nonempty("Nachname is required"),
-        street: z.string(),
-        stadt: z.string(),
-        postzahl: z.string(),
-        land: z.string(),
+        telefon: z.string().nonempty("Dies ist ein Pflichtfeld."),
+        street: z.string().nonempty("Dies ist ein Pflichtfeld."),
+        stadt: z.string().nonempty("Dies ist ein Pflichtfeld."),
+        postzahl: z.string().nonempty("Dies ist ein Pflichtfeld."),
+        land: z.string().nonempty("Dies ist ein Pflichtfeld."),
     })
 
 type UserAddressFormValues = z.infer<typeof formSchema>
@@ -57,9 +57,10 @@ const UserAddress: React.FC<UserAddressProps> = ({
             postzahl: "",
             land: "",
         }
-
-
     })
+
+    const { formState } = form;
+    const { errors } = formState;
 
     const onSubmit = async (data: UserAddressFormValues) => {
         try {
@@ -69,7 +70,7 @@ const UserAddress: React.FC<UserAddressProps> = ({
                     method: "PATCH",
                     body: JSON.stringify({
                         data: {
-                            id:userAddress.id,
+                            id: userAddress.id,
                             firma: data.firma,
                             telefon: data.telefon,
                             street: data.street,
@@ -192,7 +193,11 @@ const UserAddress: React.FC<UserAddressProps> = ({
                                     </FormItem>
                                 )}
                             />
+                            <span className="text-sm text-red-500">
+                                {errors.telefon?.message}
+                            </span>
                         </div>
+
                     </div>
 
                     <div className='my-2'>
@@ -215,26 +220,11 @@ const UserAddress: React.FC<UserAddressProps> = ({
                                     </FormItem>
                                 )}
                             />
+                            <span className="text-sm text-red-500">
+                                {errors.street?.message}
+                            </span>
                         </div>
 
-                        <div className='mb-4'>
-                            <FormField
-                                control={form.control}
-                                name='street'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Adresse *</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                className='border-neutral-400 rounded-none h-7 w-[300px]'
-                                                disabled={loading}
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
 
                         <div className='mb-4'>
                             <FormField
@@ -253,7 +243,11 @@ const UserAddress: React.FC<UserAddressProps> = ({
                                     </FormItem>
                                 )}
                             />
+                            <span className="text-sm text-red-500">
+                                {errors.stadt?.message}
+                            </span>
                         </div>
+
 
                         <div className='mb-4'>
                             <FormField
@@ -272,7 +266,11 @@ const UserAddress: React.FC<UserAddressProps> = ({
                                     </FormItem>
                                 )}
                             />
+                            <span className="text-sm text-red-500">
+                                {errors.postzahl?.message}
+                            </span>
                         </div>
+
 
                         <div className='mb-4'>
                             <FormField
@@ -291,8 +289,11 @@ const UserAddress: React.FC<UserAddressProps> = ({
                                     </FormItem>
                                 )}
                             />
+                            <span className="text-sm text-red-500">
+                                {errors.land?.message}
+                            </span>
                         </div>
-
+                        
                     </div>
                 </div>
 
