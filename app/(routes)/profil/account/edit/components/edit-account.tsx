@@ -3,20 +3,16 @@
 import React, { useState } from 'react'
 import * as z from "zod"
 import { useForm } from 'react-hook-form'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import Button from '@/components/ui/Button'
-import ErrorMessage from '@/components/ui/error-message'
-import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
 import { toast } from "react-hot-toast";
 import { User } from '@/types'
-import { compare } from 'bcrypt'
 
-const URL=`${process.env.NEXT_PUBLIC_API_URL}/users`
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/users`
 
 const formSchema = z
     .object({
@@ -48,6 +44,8 @@ const EditAccount: React.FC<EditAccountProps> = ({
     const router = useRouter()
     const user = initialData.find(user => user.id === idUser)
     const [loading, setLoading] = useState(false);
+
+    
     const action = user ? "Speichern" : "Create";
 
     const [error, setError] = useState<string | null>(null);
@@ -72,7 +70,7 @@ const EditAccount: React.FC<EditAccountProps> = ({
                 method: "PATCH",
                 body: JSON.stringify({
                     data: {
-                        userId:idUser,
+                        userId: idUser,
                         vorname: data.vorname,
                         nachname: data.nachname,
                         email: data.email,
@@ -86,12 +84,12 @@ const EditAccount: React.FC<EditAccountProps> = ({
                 router.refresh();
                 toast.success("Erfolgreich aktualisiert");
                 router.push('/profil')
-              } else {
+            } else {
                 setError((await res.json()).error);
-              }
-            
+            }
+
             //router.push(`/${params.storeId}/subcategories`);
-            
+
         } catch (error) {
             toast.error("Something went wrong.");
         } finally {
@@ -103,59 +101,66 @@ const EditAccount: React.FC<EditAccountProps> = ({
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="border-b border-neutral-300" />
-                <h2 className="font-bold text-xl mb-2">Kontoinformationen</h2>
+                <h2 className="font-bold text-xl my-2">Kontoinformationen</h2>
                 <div className="lg:grid lg:grid-cols-2 gap-x-4">
                     <div className='my-2'>
-                        <FormField
-                            control={form.control}
-                            name='vorname'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Vorname *</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='Vorname'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name='nachname'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Nachname *</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='Nachname'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name='email'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email *</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='Email'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                        <div className='mb-4'>
+                            <FormField
+                                control={form.control}
+                                name='vorname'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Vorname *</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                className='border-neutral-400 rounded-none h-7 w-[300px]'
+                                                disabled={loading}
+                                                placeholder='Vorname'
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className='mb-4'>
+                            <FormField
+                                control={form.control}
+                                name='nachname'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Nachname *</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                className='border-neutral-400 rounded-none h-7 w-[300px]'
+                                                disabled={loading}
+                                                placeholder='Nachname'
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className='mb-4'>
+                            <FormField
+                                control={form.control}
+                                name='email'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Email *</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                className='border-neutral-400 rounded-none h-7 w-[300px]'
+                                                disabled={loading}
+                                                placeholder='Email'
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                     </div>
                     <div className='my-2'>
 
@@ -167,14 +172,14 @@ const EditAccount: React.FC<EditAccountProps> = ({
                 </div>
                 <div className='flex items-center justify-between'>
                     <Button
-                        className=" rounded-sm flex items-center justify-center bg-neutral-800 mt-4 py-2"
+                        className=" rounded-none flex items-center justify-center bg-neutral-800 mt-4 py-1"
                         onClick={() => router.push("/profil")}
                     >
                         <ChevronLeft size={20} />
                         Zurück
                     </Button>
                     <Button
-                        className=" rounded-sm flex items-center justify-center bg-red-600 mt-4 py-2"
+                        className=" rounded-none flex items-center justify-center bg-red-600 mt-4 py-1"
                         type='submit'
                         disabled={loading}
                     >

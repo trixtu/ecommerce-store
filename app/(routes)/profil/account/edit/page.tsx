@@ -26,7 +26,6 @@ const EditPage = async () => {
   const users = await getUsers()
   const user = users.find((user) => user.email === session.user?.email)
 
-  console.log(users)
 
   const crumb = [
     {
@@ -63,8 +62,6 @@ const EditPage = async () => {
             </div>
           </div>
         </div>
-        <LogoutButton />
-        <LogoutButton />
       </div>
     </Container>
   );

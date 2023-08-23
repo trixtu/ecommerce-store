@@ -11,18 +11,18 @@ import Contact from "@/components/sidebar/contact";
 import MainSidebar from "@/components/sidebar/main-sidebar";
 import getUsers from "@/actions/get-users";
 import getAddress from "@/actions/get-address";
+import UserAddress from "./components/user-address";
 
 
 const Address = async () => {
 
   const session = await getServerSession(authOptions);
   const users = await getUsers()
-  const user = users.find(user=>user.email===session?.user?.email)
   const address = await getAddress()
-  const userAddress = address.find(address=>address.userId === user?.id)
+ 
 
 
-  console.log(userAddress)
+  
 
   
 
@@ -59,20 +59,12 @@ const Address = async () => {
             <Contact />
           </div>
           <div className=" col-span-9">
-            {address.map((add)=>(
-              <p key={add.id}>
-                {add.firma}
-                {add.postzahl}
-                {add.postzahl}
-                {add.street}
-              </p>
-
-            ))}
+            <div className="lg:ml-4 border border-t-4 border-t-red-600 shadow-sm p-4">
+              <h1 className="font-bold text-2xl">Benutzerkonto bearbeiten</h1>
+              <UserAddress address={address} users={users} emailSession={session.user?.email}/>
+            </div>
           </div>
         </div>
-        <div><pre>{JSON.stringify(session)}</pre></div>
-        <LogoutButton />
-        <LogoutButton />
       </div>
     </Container>
   );
