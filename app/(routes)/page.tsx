@@ -13,14 +13,14 @@ export const revalidate = 0;
 const HomePage = async () => {
   const products = await getProducts({ isFeatured: true });
   const productsCarousel = await getProducts({ isFeatured: true })
-  const billboard = await getBillboard("c5aaa97e-301e-4981-ba5e-7ef25ddb83ea");
+  const billboard = await getBillboard("1aa0bce4-e250-4cef-9dda-633bc4ae12d8");
 
   const session = await getServerSession(authOptions);
 
   const users = await getUsers()
-  const user = users.find(user=> user.email === "cubitt12@gmail.com")
+  const user = users.find(user => user.email === "cubitt12@gmail.com")
 
-  
+
   return (
     <>
       <Billboard data={billboard} />

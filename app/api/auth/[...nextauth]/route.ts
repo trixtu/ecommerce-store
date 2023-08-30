@@ -1,19 +1,16 @@
-import { compare } from "bcrypt";
-import { NextAuthOptions } from "next-auth";
-import NextAuth from "next-auth/next";
-import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from 'bcrypt'
+import { NextAuthOptions } from 'next-auth'
+import NextAuth from 'next-auth/next'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
-
-import GoogleProvider from "next-auth/providers/google";
-import GitHubProvider from "next-auth/providers/github";
-import prismadb from "@/lib/prismadb";
-import getUsers from "@/actions/get-users";
- 
-
+import GoogleProvider from 'next-auth/providers/google'
+import GitHubProvider from 'next-auth/providers/github'
+import prismadb from '@/lib/prismadb'
+import getUsers from '@/actions/get-users'
 
 export const authOptions: NextAuthOptions = {
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   pages: {
     signIn: '/auth/login',
@@ -25,85 +22,81 @@ export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string
+      clientSecret: process.env.GOOGLE_SECRET as string,
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string
+      clientSecret: process.env.GITHUB_SECRET as string,
     }),
     CredentialsProvider({
-      name: "Sign in",
+      name: 'Sign in',
       credentials: {
         email: {
-          label: "Email",
-          type: "email",
-          placeholder: "hello@example.com",
+          label: 'Email',
+          type: 'email',
+          placeholder: 'hello@example.com',
         },
-        password: { label: "Password", type: "password" },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
-          return null;
+          return null
         }
         const users = await getUsers()
         const user = users.find((user) => user?.email === credentials.email)
-        console.log(user)
-        // const user = await prismadb.user.findUnique({
-        //   where: {
-        //     email: credentials.email,
-        //   },
-        // });
 
         if (!user) {
-          return null;
+          return null
         }
 
-      // if(!user.active){
-      //   throw new Error("User is not active")
-      // }
+        // if(!user.active){
+        //   throw new Error("User is not active")
+        // }
 
         const isPaswordValid = await compare(
           credentials.password,
           user.password
-        );
+        )
 
-        if(!isPaswordValid){
-            return null
+        if (!isPaswordValid) {
+          return null
         }
 
-        return{
-            id:user.id + '',
-            email:user.email,
-            vorname:user.vorname,
-            nachname:user.nachname,
-            randomKey:"hey coollllll"
+        return {
+          id: user.id + '',
+          email: user.email,
+          vorname: user.vorname,
+          nachname: user.nachname,
+          randomKey: 'hey coollllll',
         }
       },
     }),
-  ],callbacks:{
-    session: ({session,token}) => {
-      return{
+  ],
+  callbacks: {
+    session: ({ session, token, user }) => {
+      return {
         ...session,
-        user:{
+        user: {
           ...session.user,
-          id:token.id,
-          randomKey:token.randomKey
-        }
+          id: token.id,
+          randomKey: token.randomKey,
+        },
       }
     },
-    jwt: ({token,user}) => {
-      if(user) {
+
+    jwt: ({ token, user }) => {
+      if (user) {
         const u = user as unknown as any
         return {
           ...token,
-          id:u.id,
-          randomKey:u.randomKey
+          id: u.id,
+          randomKey: u.randomKey,
         }
       }
       return token
-    }
-  }
-};
+    },
+  },
+}
 
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+const handler = NextAuth(authOptions)
+export { handler as GET, handler as POST }

@@ -3,9 +3,8 @@ import Button from '@/components/ui/Button'
 import Currency from '@/components/ui/currency'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useCartStore } from '@/hooks/use-cart-store'
-import { Product } from '@/types'
 import axios from 'axios'
-import {  ChevronRight } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { toast } from 'react-hot-toast/headless'
@@ -34,16 +33,20 @@ const Sumary = () => {
 
 
     const onCheckout = async () => {
+        //Create Stripe checkout
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
             productIds: cart.map((item) => item.id)
-        })
 
+
+        })
+        console.log(response)
         window.location = response.data.url
+
     }
 
     const versand = 5 * itemsCount
-    const bestellsumme = versand+total
-    const MwSt = bestellsumme*19/100
+    const bestellsumme = versand + total
+    const MwSt = bestellsumme * 19 / 100
 
     return (
         <div className='grid lg:grid-cols-12'>
@@ -54,7 +57,7 @@ const Sumary = () => {
                     <h2 className='font-semibold text-lg'>Lieferung nach:</h2>
                     <Select>
                         <SelectTrigger className="w-full bg-white rounded-none">
-                            <SelectValue  placeholder="Deutchland" defaultValue={"deutchland"}/>
+                            <SelectValue placeholder="Deutchland" defaultValue={"deutchland"} />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="deutchland" >Deutchland</SelectItem>
@@ -70,21 +73,21 @@ const Sumary = () => {
                         <h3 className='font-semibold'>Versandkosten</h3>
                         <span><Currency value={versand} /></span>
                     </div>
-                    
+
                 </div>
                 <div className='mt-6 space-y-4'>
                     <div className='flex items-center justify-between border-t border-gray-200 pt-4 text-red-600 text-xl font-bold'>
                         <div className='text-xl font-bold'>Bestellsumme</div>
-                        <Currency  value={bestellsumme} />
+                        <Currency value={bestellsumme} />
                     </div>
                     <div className='flex items-center justify-between font-normal'>
                         <h3>Inkl. MwSt.</h3>
-                        <Currency  value={MwSt} />
+                        <Currency value={MwSt} />
                     </div>
                 </div>
                 <Button onClick={onCheckout} className='flex items-center justify-center w-full mt-6 bg-red-600 rounded-none text-lg py-2'>
                     Zur Kasse gehen
-                    <ChevronRight size={20}/>
+                    <ChevronRight size={20} />
                 </Button>
             </div>
         </div>

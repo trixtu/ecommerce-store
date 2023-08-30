@@ -9,6 +9,7 @@ import { Providers } from "./(routes)/providers";
 
 
 
+
 const font = Urbanist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+
         <Providers>
           <ModalProvider />
           <ToastProvider />
@@ -31,6 +33,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </Providers>
+
       </body>
     </html>
   );
