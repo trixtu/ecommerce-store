@@ -13,7 +13,7 @@ export const revalidate = 0;
 const HomePage = async () => {
   const products = await getProducts({ isFeatured: true });
   const productsCarousel = await getProducts({ isFeatured: true })
-  const billboard = await getBillboard("1aa0bce4-e250-4cef-9dda-633bc4ae12d8");
+  const billboard = await getBillboard("97c0b1ec-9039-4278-a66e-0fbcc09c38ee");
 
   const session = await getServerSession(authOptions);
 
